@@ -1,0 +1,71 @@
+version: '3.1'
+services:
+    influxdb:
+        image: "influxdb:0.13"
+        ports:
+            - "8083:8083"
+            - "8086:8086"
+        networks: 
+            - prom
+ 
+    grafana:
+        image: "grafana/grafana:3.1.1"
+        ports:
+            - "3000:3000"
+        networks: 
+            - prom
+
+    node:
+        image: "prom/node-exporter"
+        command: 
+            - '-collector.procfs /host/proc'
+            - '-collector.sysfs /host/sys'
+            - '-collector.filesystem.ignored-mount-points "^/(sys|proc|dev|host|etc)($$|/)"'
+        volumes:
+            - /proc:/host/proc
+            - /sys:/host/sys
+            - /:/rootfs
+        networks: 
+            - prom
+        deploy:
+            mode: global
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 3
+                window: 10s
+            update_config:
+                parallelism: 2
+                delay: 10s
+
+    cadvisor:
+        image: "google/cadvisor:latest"
+        volumes:
+            - /var/lib/docker:/var/lib/docker
+            - /var/run:/var/run
+            - /sys:/sys
+            - /:/rootfs
+        networks: 
+            - prom
+        deploy:
+            mode: global
+            restart_policy:
+                condition: on-failure
+                delay: 5s
+                max_attempts: 3
+                window: 10s
+            update_config:
+                parallelism: 2
+                delay: 10s
+    prom:
+        build: prometheus/
+        image: "prometheus:latest"
+        ports:
+            - "9090:9090"
+        networks: 
+            - prom
+
+networks:
+    prom:
+        driver: overlay
+
