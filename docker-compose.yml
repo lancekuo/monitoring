@@ -7,6 +7,10 @@ services:
             - "8086:8086"
         networks: 
             - prom
+        deploy:
+            placement:
+                constraints:
+                    - node.labels.type == storage
  
     grafana:
         image: "grafana/grafana:3.1.1"
@@ -14,6 +18,22 @@ services:
             - "3000:3000"
         networks: 
             - prom
+        deploy:
+            placement:
+                constraints:
+                    - node.labels.type == internal-portal
+    prom:
+        build: prometheus/
+        image: "prometheus:latest"
+        ports:
+            - "9090:9090"
+        networks: 
+            - prom
+        deploy:
+            placement:
+                constraints:
+                    - node.labels.type == internal-portal
+
 
     node:
         image: "prom/node-exporter"
@@ -57,14 +77,6 @@ services:
             update_config:
                 parallelism: 2
                 delay: 10s
-    prom:
-        build: prometheus/
-        image: "prometheus:latest"
-        ports:
-            - "9090:9090"
-        networks: 
-            - prom
-
 networks:
     prom:
         driver: overlay
