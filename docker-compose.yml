@@ -21,7 +21,7 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.labels.type == internal-portal
+                    - node.labels.type == internal
     prom:
         build: prometheus/
         image: "prometheus:latest"
@@ -32,7 +32,7 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.labels.type == internal-portal
+                    - node.labels.type == internal
 
 
     node:
