@@ -24,7 +24,7 @@ services:
                     - node.labels.type == internal
     prom:
         build: prometheus/
-        image: "lancekuo/prometheus:latest"
+        image: "lancekuo/prometheus:1.6.1-1"
         ports:
             - "9090:9090"
         networks: 
