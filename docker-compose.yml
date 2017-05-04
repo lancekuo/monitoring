@@ -1,19 +1,11 @@
 version: '3.1'
 services:
-    influxdb:
-        image: "influxdb:0.13"
-        ports:
-            - "8083:8083"
-            - "8086:8086"
-        networks: 
-            - prom
-        deploy:
-            placement:
-                constraints:
-                    - node.labels.type == storage
- 
     grafana:
-        image: "grafana/grafana:3.1.1"
+        image: "grafana/grafana:4.2.0"
+        volumes:
+            - "/opt/grafana:/var/lib/grafana"
+        environment:
+            - "GF_SECURITY_ADMIN_PASSWORD=test"
         ports:
             - "3000:3000"
         networks: 
@@ -25,6 +17,8 @@ services:
     prom:
         build: prometheus/
         image: "lancekuo/prometheus:1.6.1-1"
+        volumes:
+            - "/opt/prometheus:/prometheus"
         ports:
             - "9090:9090"
         networks: 
@@ -32,19 +26,21 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.labels.type == internal
-
-
+                    - node.labels.type == storage
     node:
         image: "prom/node-exporter"
         command: 
             - '-collector.procfs=/host/proc'
             - '-collector.sysfs=/host/sys'
             - '-collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+            - '--collectors.enabled=conntrack,diskstats,entropy,filefd,filesystem,loadavg,mdadm,meminfo,netdev,netstat,stat,textfile,time,vmstat,ipvs'
         volumes:
             - /proc:/host/proc
             - /sys:/host/sys
             - /:/rootfs
+            - /etc/hostname:/etc/host_hostname
+        environment:
+            - "HOST_HOSTNAME=/etc/host_hostname"
         networks: 
             - prom
         deploy:
