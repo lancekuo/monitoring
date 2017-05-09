@@ -14,6 +14,13 @@ services:
             placement:
                 constraints:
                     - node.labels.type == internal
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 64M
+                reservations:
+                    cpus: '0.50'
+                    memory: 32M
     prom:
         build: prometheus/
         image: "lancekuo/prometheus:1.6.1-1"
@@ -27,6 +34,13 @@ services:
             placement:
                 constraints:
                     - node.labels.type == storage
+            resources:
+                limits:
+                    cpus: '0.50'
+                    memory: 1024M
+                reservations:
+                    cpus: '0.50'
+                    memory: 128M
     node:
         image: "prom/node-exporter"
         command: 
@@ -53,6 +67,13 @@ services:
             update_config:
                 parallelism: 2
                 delay: 10s
+            resources:
+                limits:
+                    cpus: '0.10'
+                    memory: 32M
+                reservations:
+                    cpus: '0.10'
+                    memory: 16M
 
     cadvisor:
         image: "google/cadvisor:latest"
@@ -73,6 +94,13 @@ services:
             update_config:
                 parallelism: 2
                 delay: 10s
+            resources:
+                limits:
+                    cpus: '0.10'
+                    memory: 128M
+                reservations:
+                    cpus: '0.10'
+                    memory: 64M
 networks:
     prom:
         driver: overlay
