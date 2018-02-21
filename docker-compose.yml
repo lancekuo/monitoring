@@ -43,11 +43,10 @@ services:
         build: node-exporter/
         image: "lancekuo/node-exporter:0.15.2"
         command: 
-            - '-collector.procfs=/host/proc'
-            - '-collector.sysfs=/host/sys'
-            - '-collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
-            - '--collectors.enabled=conntrack,diskstats,entropy,filefd,filesystem,loadavg,mdadm,meminfo,netdev,netstat,stat,textfile,time,vmstat,ipvs'
-            - '-collector.textfile.directory=/etc/node-exporter/'
+            - '--path.procfs=/host/proc'
+            - '--path.sysfs=/host/sys'
+            - '--collector.filesystem.ignored-mount-points="^/(sys|proc|dev|host|etc)($$|/)"'
+            - '--collector.textfile.directory=/etc/node-exporter/'
         volumes:
             - /proc:/host/proc
             - /sys:/host/sys
