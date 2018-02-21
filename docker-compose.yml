@@ -75,7 +75,7 @@ services:
                     memory: 16M
 
     cadvisor:
-        image: "google/cadvisor:latest"
+        image: "google/cadvisor:v0.29.0"
         volumes:
             - /var/lib/docker:/var/lib/docker
             - /var/run:/var/run
