@@ -21,7 +21,7 @@ services:
                     memory: 32M
     prom:
         build: prometheus/
-        image: "lancekuo/prometheus:1.6.1-1"
+        image: "lancekuo/prometheus:2.1.0"
         volumes:
             - "/opt/prometheus:/prometheus"
         ports:
@@ -41,7 +41,7 @@ services:
                     memory: 128M
     node:
         build: node-exporter/
-        image: "lancekuo/node-exporter:0.14.0-1"
+        image: "lancekuo/node-exporter:0.15.2"
         command: 
             - '-collector.procfs=/host/proc'
             - '-collector.sysfs=/host/sys'

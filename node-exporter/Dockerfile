@@ -1,4 +1,4 @@
-FROM prom/node-exporter:v0.14.0
+FROM prom/node-exporter:v0.15.2
 
 ENV NODE_EXPORTER_BIN=/bin/node_exporter
 
