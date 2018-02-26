@@ -1,7 +1,8 @@
 version: '3.1'
 services:
     grafana:
-        image: "grafana/grafana:4.2.0"
+        build: grafana/
+        image: "lancekuo/grafana:5.0.0-beta4"
         environment:
             - "GF_SECURITY_ADMIN_PASSWORD=test"
         ports:
