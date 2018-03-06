@@ -20,7 +20,7 @@ services:
                 reservations:
                     cpus: '0.50'
                     memory: 32M
-    prom:
+    prometheus:
         build: prometheus/
         image: "lancekuo/prometheus:2.1.0"
         volumes:
