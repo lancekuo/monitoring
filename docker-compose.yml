@@ -8,7 +8,7 @@ services:
         ports:
             - "3000:3000"
         networks: 
-            - prom
+            - monitor-network
         deploy:
             placement:
                 constraints:
@@ -28,7 +28,7 @@ services:
         ports:
             - "9090:9090"
         networks: 
-            - prom
+            - monitor-network
         deploy:
             placement:
                 constraints:
@@ -56,7 +56,7 @@ services:
         environment:
             - "HOST_HOSTNAME=/etc/host_hostname"
         networks: 
-            - prom
+            - monitor-network
         deploy:
             mode: global
             restart_policy:
@@ -83,7 +83,7 @@ services:
             - /sys:/sys
             - /:/rootfs
         networks: 
-            - prom
+            - monitor-network
         deploy:
             mode: global
             restart_policy:
@@ -105,7 +105,8 @@ services:
         image: traefik
         command: --web --web.metrics.prometheus --web.metrics.prometheus.buckets="0.1,0.3,1.2,5.0" --docker --docker.domain=docker.localhost --logLevel=DEBUG
         networks:
-            - prom
+            - monitor-network
+            - app-network
         ports:
             - "80:80"
             - "8080:8080"
@@ -118,4 +119,10 @@ services:
 networks:
     prom:
         driver: overlay
-
+networks:
+  monitor-network:
+    external: true
+    name: monitor-network
+  app-network:
+    external: true
+    name: app-network
