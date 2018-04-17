@@ -106,6 +106,8 @@ services:
         environment:
           - LISTENER_ADDRESS=swarm-listener
           - MODE=swarm
+          - STATS_USER=none
+          - STATS_PASS=none
         networks:
             - monitor-network
             - app-network
