@@ -2,7 +2,7 @@ version: '3.5'
 services:
     grafana:
         build: grafana/
-        image: "lancekuo/grafana:5.0.4"
+        image: "lancekuo/grafana:5.0.4-1"
         environment:
             - "GF_SECURITY_ADMIN_PASSWORD=test"
         ports:
@@ -22,7 +22,7 @@ services:
                     memory: 32M
     prometheus:
         build: prometheus/
-        image: "lancekuo/prometheus:2.2.1-0"
+        image: "lancekuo/prometheus:2.2.1-1"
         volumes:
             - "/opt/prometheus:/prometheus"
         ports:
@@ -101,22 +101,27 @@ services:
                 reservations:
                     cpus: '0.10'
                     memory: 64M
-    traefik:
-        image: traefik
-        command:
-          - --web
-          - --web.metrics.prometheus
-          - --web.metrics.prometheus.buckets=0.1,0.3,1.2,5.0
-          - --docker
-          - --docker.domain=traefik
-          - --docker.swarmmode
-          - --logLevel=DEBUG
+    proxy:
+        image: dockerflow/docker-flow-proxy:18.04.16-36-linux-amd64
+        environment:
+          - LISTENER_ADDRESS=swarm-listener
+          - MODE=swarm
         networks:
             - monitor-network
             - app-network
         ports:
             - "80:80"
-            - "8080:8080"
+            - "443:443"
+        deploy:
+          replicas: 2
+
+    swarm-listener:
+        image: dockerflow/docker-flow-swarm-listener:18.04.15-5-linux-amd64
+        environment:
+          - DF_NOTIFY_CREATE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/reconfigure
+          - DF_NOTIFY_REMOVE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/remove
+        networks:
+            - monitor-network
         volumes:
             - /var/run/docker.sock:/var/run/docker.sock
         deploy:
