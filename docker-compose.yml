@@ -22,7 +22,7 @@ services:
                     memory: 32M
     prometheus:
         build: prometheus/
-        image: "lancekuo/prometheus:2.2.1-1"
+        image: "lancekuo/prometheus:2.2.1-2"
         volumes:
             - "/opt/prometheus:/prometheus"
         ports:
