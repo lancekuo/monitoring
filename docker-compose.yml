@@ -101,39 +101,7 @@ services:
                 reservations:
                     cpus: '0.10'
                     memory: 64M
-    proxy:
-        image: dockerflow/docker-flow-proxy:18.04.16-36-linux-amd64
-        environment:
-          - LISTENER_ADDRESS=swarm-listener
-          - MODE=swarm
-          - STATS_USER=none
-          - STATS_PASS=none
-        networks:
-            - monitor-network
-            - app-network
-        ports:
-            - "80:80"
-            - "443:443"
-        deploy:
-          replicas: 2
-
-    swarm-listener:
-        image: dockerflow/docker-flow-swarm-listener:18.04.15-5-linux-amd64
-        environment:
-          - DF_NOTIFY_CREATE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/reconfigure
-          - DF_NOTIFY_REMOVE_SERVICE_URL=http://proxy:8080/v1/docker-flow-proxy/remove
-        networks:
-            - monitor-network
-        volumes:
-            - /var/run/docker.sock:/var/run/docker.sock
-        deploy:
-            placement:
-                constraints:
-                    - node.role == manager
 networks:
   monitor-network:
     external: true
     name: monitor-network
-  app-network:
-    external: true
-    name: app-network
