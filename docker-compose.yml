@@ -77,6 +77,8 @@ services:
 
     cadvisor:
         image: "google/cadvisor:v0.29.0"
+        command:
+            - '-docker_only'
         volumes:
             - /var/lib/docker:/var/lib/docker
             - /var/run:/var/run
