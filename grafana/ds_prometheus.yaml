@@ -38,6 +38,7 @@ datasources:
   # <map> fields that will be converted to json and stored in json_data
   jsonData:
     timeInterval: "15s"
+    httpMethod: 'POST'
   # <string> json object of data that will be encrypted.
   secureJsonData:
     tlsCACert: "..."
