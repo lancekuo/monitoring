@@ -56,7 +56,7 @@ services:
                     memory: 128M
     node:
         build: node-exporter/
-        image: "lancekuo/node-exporter:0.15.2"
+        image: "lancekuo/node-exporter:0.16.0"
         command: 
             - '--path.procfs=/host/proc'
             - '--path.sysfs=/host/sys'
