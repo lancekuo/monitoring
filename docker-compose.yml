@@ -90,7 +90,7 @@ services:
                     memory: 64M
 
     cadvisor:
-        image: "google/cadvisor:v0.29.0"
+        image: "google/cadvisor:v0.31.0"
         command:
             - '-docker_only'
         volumes:
