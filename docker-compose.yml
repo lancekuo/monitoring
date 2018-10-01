@@ -151,6 +151,14 @@ volumes:
     data-local:
         name: '{{.Service.Name}}-{{.Task.Slot}}'
         driver: local
+    data-rexray-ebs:
+        name: 'rexray_{{.Service.Name}}-{{.Task.Slot}}'
+        driver: rexray/ebs
+        driver_opts:
+            size: 25
+    data-rexray-s3fs:
+        name: 'rexray_{{.Service.Name}}-{{.Task.Slot}}'
+        driver: rexray/s3fs
 
 networks:
   monitor-network:
