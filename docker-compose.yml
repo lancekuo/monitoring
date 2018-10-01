@@ -31,7 +31,7 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.labels.type == internal
+                    - node.labels.azs == 1
             resources:
                 limits:
                     cpus: '0.50'
@@ -64,7 +64,7 @@ services:
         deploy:
             placement:
                 constraints:
-                    - node.labels.type == storage
+                    - node.labels.azs == 0
             resources:
                 limits:
                     cpus: '0.50'
