@@ -31,9 +31,9 @@ services:
         networks: 
             - monitor-network
         deploy:
-            placement:
-                constraints:
-                    - node.labels.azs == 1
+            # placement:
+            #     constraints:
+            #         - node.labels.azs == 1
             resources:
                 limits:
                     cpus: '0.50'
@@ -64,9 +64,9 @@ services:
         networks: 
             - monitor-network
         deploy:
-            placement:
-                constraints:
-                    - node.labels.azs == 0
+            # placement:
+            #     constraints:
+            #         - node.labels.azs == 0
             resources:
                 limits:
                     cpus: '0.50'
