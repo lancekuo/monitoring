@@ -24,6 +24,8 @@ services:
             - "GF_AUTH_GITHUB_CLIENT_SECRET=${GF_AUTH_GITHUB_CLIENT_SECRET}"
             - "GF_AUTH_GITHUB_TEAM_IDS=${GF_AUTH_GITHUB_TEAM_IDS}"
             - "GF_AUTH_GITHUB_SCOPES=user:email,read:org"
+        volumes:
+            - data-local:/var/lib/grafana
         ports:
             - "3000:3000"
         networks: 
@@ -56,7 +58,7 @@ services:
             timeout: 30s
             retries: 3
         volumes:
-            - "/opt/prometheus:/prometheus"
+            - data-local:/prometheus
         ports:
             - "9090:9090"
         networks: 
@@ -135,6 +137,11 @@ services:
                 reservations:
                     cpus: '0.10'
                     memory: 64M
+volumes:
+    data-local:
+        name: '{{.Service.Name}}-{{.Task.Slot}}'
+        driver: local
+
 networks:
   monitor-network:
     attachable: true
