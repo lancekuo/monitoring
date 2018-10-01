@@ -137,5 +137,5 @@ services:
                     memory: 64M
 networks:
   monitor-network:
-    external: true
-    name: monitor-network
+    attachable: true
+    name: monitoring
