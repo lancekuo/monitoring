@@ -54,7 +54,7 @@ services:
                 reservations:
                     cpus: '0.50'
                     memory: 128M
-    node:
+    node-exporter:
         build: node-exporter/
         image: "lancekuo/node-exporter:0.16.0"
         command: 
