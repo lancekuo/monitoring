@@ -53,7 +53,7 @@ services:
         environment:
             - 'JOBS=managers.docker:9323 workers.docker:9323'
         healthcheck:
-            test: nc -z -w 1  localhost 9090
+            test: nc -zw 1  localhost 9090
             interval: 30s
             timeout: 30s
             retries: 3
@@ -77,6 +77,11 @@ services:
     node-exporter:
         build: node-exporter/
         image: "lancekuo/node-exporter:0.16.0"
+        healthcheck:
+            test: nc -zw 1 localhost 9100
+            interval: 15s
+            timeout: 30s
+            retries: 3
         command: 
             - '--path.procfs=/host/proc'
             - '--path.sysfs=/host/sys'
@@ -111,6 +116,11 @@ services:
 
     cadvisor:
         image: "google/cadvisor:v0.31.0"
+        healthcheck:
+            test: nc -zw 1 localhost 8080
+            interval: 15s
+            timeout: 30s
+            retries: 3
         command:
             - '-docker_only'
         volumes:
