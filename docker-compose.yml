@@ -2,7 +2,12 @@ version: '3.5'
 services:
     grafana:
         build: grafana/
-        image: "lancekuo/grafana:5.1.3-0"
+        image: "lancekuo/grafana:5.2.4"
+        healthcheck:
+            test: curl -sf localhost:3000
+            interval: 30s
+            timeout: 30s
+            retries: 3
         environment:
             - "GF_SECURITY_ADMIN_USER=${ADMIN_USER:-admin}"
             - "GF_SECURITY_ADMIN_PASSWORD=${ADMIN_PASSWORD:-test}"
@@ -37,6 +42,11 @@ services:
     prometheus:
         build: prometheus/
         image: "lancekuo/prometheus:2.2.1-2"
+        healthcheck:
+            test: nc -z -w 1  localhost 9090
+            interval: 30s
+            timeout: 30s
+            retries: 3
         volumes:
             - "/opt/prometheus:/prometheus"
         ports:
