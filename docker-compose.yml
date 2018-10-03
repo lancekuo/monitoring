@@ -34,6 +34,7 @@ services:
             # placement:
             #     constraints:
             #         - node.labels.azs == 1
+            #         - node.role == manager
             resources:
                 limits:
                     cpus: '0.50'
@@ -59,6 +60,7 @@ services:
             retries: 3
         volumes:
             - data-local:/prometheus
+            # - data-rexray-ebs:/prometheus
         ports:
             - "9090:9090"
         networks: 
@@ -66,11 +68,12 @@ services:
         deploy:
             # placement:
             #     constraints:
-            #         - node.labels.azs == 0
+            #         - node.labels.azs == 1
+            #         - node.role == manager
             resources:
                 limits:
                     cpus: '0.50'
-                    memory: 2048M
+                    memory: 1g
                 reservations:
                     cpus: '0.50'
                     memory: 128M
